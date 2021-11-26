@@ -2,85 +2,43 @@
 
 CheatSheet for Final Exam INT492 Devops
 
+## Suggest for see tree structure
+
+```bash
+# install tree
+sudo apt install tree
+
+# install docker-compose
+sudo python3 -m pip install --upgrade pip
+sudo CRYPTOGRAPHY_DONT_BUILD_RUST=1 python3 -m pip install --upgrade docker-compose
+sudo curl -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+exec bash
+docker-compose version
+```
+
 ## Git & GitHub
 
-* Maybe not use in Final Exam
-
-* Set git config
-
 ```bash
-git config --global user.name “[Your name]”
-git config --global user.email “[Your email]”
-// check config
-git config --list
-```
+# git clone
+## folder name optional with no folder name it will create folder name by repo name
+git clone [URL] [Folder name]
 
-* Init git to folder
+# git branch
+## create branch
+git branch [Branch name]
+## check branch
+git branch
+## checkout to branch
+git checkout [Branch name]
 
-```bash
-cd [FOLDER]
-git init
-```
-
-* Add first commit
-
-```bash
-# You can use one of below
-git add .
-git add [FILE]
-
-# Check status
+# git commit
+## check file that changed
 git status
-
-# First commit
-git commit -m "[MESSAGE]"
-```
-
-* Push repo to GitHub
-
-```bash
-# generate SSH
-ssh-keygen
-# Copy public key
-cat ~/.ssh/id_rsa.pub
-```
-
-After you copy ssh key, you will go to `GitHub Setting / SSH and GPG Key`. Copy last part in SSH to `Title` and first part for `Key`.
-
-After you add SSH Key success, you must create new repository on GitHub.
-
-```bash
-# Add SSH of repo to folder
-git remote add origin [YOUR SSH IN REPO]
-# To see remote repository has been added
-git remote -v
-# Set default branch to main
-git branch -M main
-# Push code to GitHub
-git push -u origin main
-```
-
-* How to clone project
-
-```bash
-git clone git@github.com:[USERNAME]/[REPO NAME].git [FOLDER NAME]
-```
-
-* How to fork branch
-
-```bash
-# create branch
-git branch [BRANCH NAME]
-# checkout to branch
-git checkout [BRANCH NAME]
-# push to GitHub
-git push --set-upstream origin [BRANCH NAME]
-```
-
-* How to see diff between current and old commit
-
-```bash
-git diff
+## add to commit
+git add .
+git add [File path]
+## commit with message
+git commit -m "[message]"
 ```
 
 * You can see addition detail in Workshop/01-git.md <https://github.com/opsta-education/int492-2021-devops-workshop/blob/main/docs/01-git.md>
@@ -88,146 +46,81 @@ git diff
 ## Linux
 
 ```bash
-# Show all file and permission in that directory
-ls -la
+# create directory
+## you can make multiple directory in one line
+mkdir [Directory name], ...
 
-# Show history
-history
+# copy file
+## you can add -i for ask confirmation or -r for copy whole directory
+cp <source file> <target file>
+cp -r <source dir> <target dir>
+## you can cp with multiple file to target directory
+cp file1 file2 ... <directory>
 
-# Show what that command can do
-whatis [COMMAND]
-man [COMMAND]
-[COMMAND] --help
+# move file
+## change name to new file 
+mv <old name> <new name>
 
-# Show content
-cat [FILE]
+# remove file and directory
+## file
+rm <file name>
+rm -i <file name>
 
-# use spacebar to next
-more [FILE]
+# scan pattern
+grep <pattern> <file>
 
-# use arrow or page up/down
-less [FILE]
+# change permission
+## change with number
+### read = 4, write = 2, execute = 1, no permission = 0
+### first digit to owner, second digit to group, last digit to other
+sudo chmod 777 <file name>
 
-# default 10 lines
-head [FILE]
+## change owner and group
+sudo chgrp <group name> <file name>
+sudo chown <group name> <file name>
 
-# 5 lines
-head -n 5 [FILE] 
+## change with name
+### g is group permission and add execute to group permisssion
+### u is owner, g is group, o is other and a is all user
+### + means add, - mean minus and = means only permission that you want
+sudo chmod g+x <file name>
+sudo chmod g-x <file name>
+sudo chmod g=r <file name> # group can read only
 
-# 10 lines
-tail [FILE] 
-
-# open another tab
-tail -f [FILE]
-
-# Search in File
-grep [PATTERN] [FILE]
+# how to write continue in file
+cal 2020 > output.txt # it will create output.txt
+cal 2021 >> output.txt # it will write continue from old file
 ```
 
 * Find more in <https://github.com/opsta-education/int492-2021-devops-workshop/blob/main/docs/02-linux.md>
 
 ## Docker
 
+You can search for docker image in Docker Hub <https://hub.docker.com>
+ํYou can see Dockerfile structure in Docker Hub and use it exam.
+
 ```bash
-# see image on machine
-docker images
-
-# pull image lastest version from Docker Hub
-docker pull [IMAGE]
-# pull with version
-docker pull [IMAGE]:[VERSION]
-
-
-# You can run with command for that image
-docker run [IMAGE] [COMMAND]
-# It will run bash from that image
-docker run -i -t ubuntu bash
-
-# Show only running container
+# see docker container
+## running container
 docker ps
-# Show running and stopped container
+## running and stopped container
 docker ps -a
-# Run container with specific name
-docker run --name [Container Name] [Image] [Command]
 
-# Delete container
-## by name
-docker rm [Container Name]
-## by ID
-docker rm [part of ID]
+# build image from docker file
+## you must in directory that have Dockerfile.yaml
+docker build -t <image name> .
 
-# Run Docker as deamon and expose port
-## run in front show ui
-docker run [IMAGE]:[VERSION]
-## run in background
-docker run -d [IMAGE]:[VERSION]
-## run in background and expose port
-docker run -d -p 8080:80 [IMAGE]:[VERSION]
-
-### You cannot use port that already exposed but can use other port that will create new container
-
-# Utilities command
-## Rename container
-docker rename [NEW NAME] [OLD NAME]
-## Go inside running container
-docker exec -it [NAME] [COMMAND] # docker exec -it nginx sh
-## Show container process
-docker top [NAME]
-## Show log
-docker logs [NAME]
-## Show log real-time
-docker logs -f [NAME]
-## Show resource
-docker stats
-## Show container all metadata
-docker inspect [NAME]
-
-# Delete All Container
-docker rm -f ${docker ps -aq}
-```
-
-### File structure (depand on instruction of that image)
-
-```bash
-FROM node:16.8.0-alpine3.12
-
-WORKDIR /usr/src/app/
-
-COPY src/ /usr/src/app/
-RUN npm install
-
-EXPOSE 8080
-
-CMD ["node", "/usr/src/app/ratings.js", "8080"]
-```
-
-1. Start from build images
-```bash
-# must in directory that want to use
-docker build -t [NAME] [FILE] ## docker build -t ratings .
-```
-2. Check image
-```bash
+# see docker image
 docker images
-```
-3. Run container from image with expose port
-```bash
-docker run -d --name [NAME] -p [External Port]:[Internal Port] [Image name]
-```
-4. Run container from image with expose port and environment variable
-```bash
-docker run -d --name [NAME] -p [External Port]:[Internal Port] -e [Name]:[Value] (...) [Image name]
-``` 
 
-* How to run MongoDB Container
-```bash
-# no initial database
-docker run -d --name mongodb -p 27017:27017 bitnami/mongodb:5.0.2-debian-10-r2
-# with initial database
-docker run -d --name mongodb -p 27017:27017 -v $(pwd)/databases:/docker-entrypoint-initdb.d bitnami/mongodb:5.0.2-debian-10-r2
+# delete docker image
+docker rm -f <image name>
 
-# How to use in rating
-docker run -d --name ratings -p 8080:8080 --link mongodb:mongodb -e SERVICE_VERSION=v2 -e 'MONGO_DB_URL=mongodb://mongodb:27017/ratings' ratings
+# log docker container
+docker logs -f <container name>
+
+# run docker container with port and environment
+docker run -d --name <container name> -p [External port]:[Internal port] -e [Key]:[Value] [Image name]
 ```
 
 * Find more in <https://github.com/opsta-education/int492-2021-devops-workshop/blob/main/docs/03-docker.md>
@@ -247,9 +140,10 @@ docker-compose version
 * You must create `docker-compose.yml` or `docker-compose.yaml` in that directory
 
 ### Structure
-!!! be careful with tab indent, it will affect in your build process!!!
+!!! be careful with tab indent, it will affect in your build process !!!
 
 ```bash
+# docker-compose in beginning
 services:
   ratings:
     build: .
@@ -258,6 +152,28 @@ services:
       - "8080:8080"
     environment:
       SERVICE_VERSION: v1
+
+# docker-compose in rating
+services:
+  ratings:
+    build: .
+    image: ghcr.io/supakit25433/bookinfo-ratings:dev
+    ports:
+      - "8080:8080"
+    environment:
+      SERVICE_VERSION: v2
+      MONGO_DB_URL: mongodb://mongodb:27017/ratings
+      MONGO_DB_USERNAME: ratings
+      MONGO_DB_PASSWORD: CHANGEME
+  mongodb:
+    image: bitnami/mongodb:5.0.2-debian-10-r2
+    volumes:
+      - "./databases:/docker-entrypoint-initdb.d"
+    environment:
+      MONGODB_ROOT_PASSWORD: CHANGEME
+      MONGODB_USERNAME: ratings
+      MONGODB_PASSWORD: CHANGEME
+      MONGODB_DATABASE: ratings
 ```
 
 You can run by this command. But you must delete running container that have same name
@@ -281,30 +197,6 @@ docker-compose logs -f [NAME] # log with specific container
 docker-compose top # show all process
 docker-compose images # show image that build in docker-compose
 docker-compose stop # stop and clean
-```
-
-* Example docker-compose.yaml for ratings
-```bash
-services:
-  ratings:
-    build: .
-    image: ghcr.io/[GITHUB_USER]/bookinfo-ratings:dev
-    ports:
-      - "8080:8080"
-    environment:
-      SERVICE_VERSION: v2
-      MONGO_DB_URL: mongodb://mongodb:27017/ratings
-      MONGO_DB_USERNAME: ratings
-      MONGO_DB_PASSWORD: CHANGEME
-  mongodb:
-    image: bitnami/mongodb:5.0.2-debian-10-r2
-    volumes:
-      - "./databases:/docker-entrypoint-initdb.d"
-    environment:
-      MONGODB_ROOT_PASSWORD: CHANGEME
-      MONGODB_USERNAME: ratings
-      MONGODB_PASSWORD: CHANGEME
-      MONGODB_DATABASE: ratings
 ```
 
 * Code before this line is will change or add some file. You can see details in <https://github.com/opsta-education/int492-2021-devops-workshop/blob/main/docs/04-docker-compose.md>
@@ -495,6 +387,21 @@ kubectl apply -f [FILE], -f [FILE]
 kubectl port-forward service/apache 8080:80
 ```
 
+## secret manifest file use cases
+
+see more: <https://kubernetes.io/docs/concepts/configuration/secret/>
+
+```bash
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  USER_NAME: YWRtaW4=
+  PASSWORD: MWYyZDFlMmU2N2Rm
+```
+
 * Clean
 ```bash
 # You must in directory that have manifest file
@@ -631,6 +538,9 @@ kubectl apply -f k8s/
 * You can see details in <https://github.com/opsta-education/int492-2021-devops-workshop/blob/main/docs/07-k8s-rating.md>
 
 # Deploy MongoDB with Helm Chart
+
+* You can see chart in <https://hub.kubeapps.com/charts>
+* You can see template for chart value in <https://github.com/helm/charts/tree/master/stable>
 
 ## Use bitnami chart
 
