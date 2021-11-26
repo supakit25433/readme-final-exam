@@ -97,7 +97,7 @@ cal 2021 >> output.txt # it will write continue from old file
 ## Docker
 
 You can search for docker image in Docker Hub <https://hub.docker.com>
-ํYou can see Dockerfile structure in Docker Hub and use it exam.
+You can see Dockerfile structure in Docker Hub and use it exam.
 
 ```bash
 # see docker container
