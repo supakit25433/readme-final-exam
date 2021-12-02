@@ -2,7 +2,33 @@
 
 CheatSheet for Final Exam INT492 Devops
 
-## Suggest for see tree structure
+## Prepare for exam
+
+```bash
+# Set default to namespace
+kubectl config set-context $(kubectl config current-context) --namespace=student[X]
+kubectl get deployments
+
+## if can not see deployment, must see in exam doc for solution
+
+# get pod and enter bash in pod
+kubectl get pod
+kubectl exec -it student[X]-result-[HASH] -- bash
+
+# cd to exam directory and create directory 1-20
+cd /exam
+mkdir {1..20}
+ls -la
+
+# for copy file from cloud shell to pod
+kubectl cp [File/Directory] [Pod name]:[Path]
+## copy for file
+kubectl cp output.txt student[X]-result-[HASH]:/exam/3/output.txt
+## copy for directory
+kubectl cp 1/ student[X]-result-[HASH]:/exam/
+```
+
+## Suggest for see tree structure & install docker-compose
 
 ```bash
 # install tree
