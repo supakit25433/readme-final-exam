@@ -103,7 +103,7 @@ sudo chmod 777 <file name>
 
 ## change owner and group
 sudo chgrp <group name> <file name>
-sudo chown <group name> <file name>
+sudo chown <owner name> <file name>
 
 ## change with name
 ### g is group permission and add execute to group permisssion
