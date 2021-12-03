@@ -2,6 +2,19 @@
 
 CheatSheet for Final Exam INT492 Devops
 
+## Table
+
+- [Git & GitHub](https://github.com/supakit25433/readme-final-exam#git--github)
+- [Linux](https://github.com/supakit25433/readme-final-exam#linux)
+- [Docker](https://github.com/supakit25433/readme-final-exam#docker)
+- [Docker Compose](https://github.com/supakit25433/readme-final-exam#docker-compose)
+- [Kubernetes](https://github.com/supakit25433/readme-final-exam#kubernetes-k8s)
+- [Kubernetes manifest file](https://github.com/supakit25433/readme-final-exam#k8s-manifest-file)
+- [Secret manifest file](https://github.com/supakit25433/readme-final-exam#secret-manifest-file-use-cases)
+- [Deploy rating k8s](https://github.com/supakit25433/readme-final-exam#deploy-ratings-on-k8s)
+- [Deploy MongoDB with Helm chart](https://github.com/supakit25433/readme-final-exam#deploy-mongodb-with-helm-chart)
+- [Deploy rating with helm chart](https://github.com/supakit25433/readme-final-exam#deploy-ratings-service-with-helm-chart)
+
 ## Prepare for exam
 
 ```bash
